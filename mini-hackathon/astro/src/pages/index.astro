@@ -12,8 +12,8 @@ import CallToAction from '../components/widgets/CallToAction.astro';
 import heroImage from '../assets/images/hero-image.png';
 
 const metadata = {
-  title: 'AstroWind — Free template for creating websites with Astro + Tailwind CSS',
-  ignoreTitleTemplate: true,
+  title: 'DevMornings Bangkok — Self-study meetup for software developers.',
+  ignoreTitleTemplate: false,
 };
 ---
 
@@ -22,30 +22,19 @@ const metadata = {
 
   <Hero
     actions={[
-      {
-        variant: 'primary',
-        text: 'Get template',
-        href: 'https://github.com/onwidget/astrowind',
-        target: '_blank',
-        icon: 'tabler:download',
-      },
-      { text: 'Learn more', href: '#features' },
+      { text: 'Learn more', href: 'https://www.meetup.com/bkk-devmorning/' },
     ]}
-    image={{ src: heroImage, alt: 'AstroWind Hero Image' }}
+    image={{ src: heroImage, alt: 'DevMornings Bangkok Hero Image' }}
   >
     <Fragment slot="title">
-      Free template for <span class="hidden xl:inline">creating websites with</span>
-      <span class="text-accent dark:text-white highlight"> Astro 5.0</span> + Tailwind CSS
+      DeMornings Bangkok - Self-Study For Coders, Students, And Anyone Interested in Tech!
     </Fragment>
 
     <Fragment slot="subtitle">
       <span class="hidden sm:inline">
-        <span class="font-semibold">AstroWind</span> is a free, customizable and production-ready template for Astro 5.0
-        + Tailwind CSS.</span
-      >
-      <span class="block mb-1 sm:hidden font-bold text-blue-600">AstroWind: Production-ready.</span>
-      Suitable for Startups, Small Business, SaaS websites, Professional Portfolios, Marketing websites, Landing Pages &
-      Blogs.
+        <span class="font-semibold">DevMornings</span> is a free, community based meetup to help you learn and grow
+        in tech.
+      </span>
     </Fragment>
   </Hero>
 
