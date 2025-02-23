@@ -1,19 +1,24 @@
-
-![VQyrPPyh-FGdV2BJtlcwDphesnxERD6SLWvGtARygLDVNSsXhFF0kzG_yXvLyiARZbKIG3VYF_CIbF4_B-Wy3Eu7kKhHKKR3pq_2ob2pdZgxt_Wz_uqXjRMrhIBKREQnJo--Ui9b](https://github.com/user-attachments/assets/2a6f9223-5710-4c2d-9d0b-ddb19d7f0762)
-
-# Welcome To Your Hackathon
+# Welcome To Our Hackathon
 
 ### Your Mission 
 
 We have been growing DevMornings for almost two years now and with your help the past two months have been the best yet.  So let's keep the group growing and build some cool s*** together!
 
-We created this repo so all of us can work together to create DevMorning's first website together using AI.  Both to build and to allow for some cool features on the web.  Our mentors will be here every step of the way.
+This repo was created so all of us can work together to create DevMorning's first website together using AI.  Both to build and to allow for some cool features on the web.  Our mentors will be here every step of the way.
 
-### How This Works
+### How Our Hackathon Works
 
-We have created this repo for all of us to work together.  Follow the instructions below to get started and then follow the AI roadmap below that to start creating your own version or to find teammates to work with.
+To help our organization grow and give our members access to tech leaders, exclusive technology, and incredible opportunities we want to build a website.  Not one of those boilerplate websites that everyone has but a custom made full-stack application that will grab the attention of its viewers.
 
-The tech stack we'll be using is *Astro, NestJS, OpenAI, and MongoDB Vector Search*.
+Help us!
+
+Since we have no idea what we want to build we can decide together.  Decide what you want to learn and we will work together to code a real life and published project.  One that you'll be able to show off as part of your portfolio.
+
+_Steps to Building a Software Product_
+
+![Hackathon-Template-3](https://github.com/user-attachments/assets/14ce3501-8819-4bf5-ae2f-ce2942d8420f)
+
+
 
 ## 🚀 Getting Started
 
