@@ -27,6 +27,8 @@ _Steps to Building a Software Product_
 
 ```bash
 npm install
+npm install tailwindcss @tailwindcss/vite
+npx astro add astro-icon
 ```
 
 3. Start the development server:
