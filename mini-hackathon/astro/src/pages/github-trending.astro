@@ -1,0 +1,84 @@
+---
+import Layout from '../layouts/PageLayout.astro';
+
+let trend: { name: string, html_url: string, stars: string, forks: string , description: string }[] = [];
+
+async function getTrend() {
+  try {
+    const res = await fetch("https://api.github.com/search/repositories?q=AI+language+model&sort=stars&order=desc");
+    const json = await res.json();
+    //console.log('GitHub API response:', json);
+    console.log('length=', json.items.length);
+
+    if (!json.items || json.items.length === 0) {
+      console.log('No records found.');
+      return [];
+    }
+    
+    trend = json.items.map((t: any) => {
+      return { html_url: t.html_url, name: t.name, stars: t.stargazers_count, forks: t.forks_count, description: t.description };
+    });
+  } catch (error) {
+    console.error('Error fetching trend:', error);
+  }
+}
+
+await getTrend();
+---
+<Layout client:load>
+
+ <div id="container">
+    <main>
+    {trend.length > 0 ? (
+      <ul>
+        {trend.map((t) => (
+          <h1>{t.name} | ⭐ {t.stars} | 🍴  {t.forks}</h1>
+          <li>
+            <a href={t.html_url} target="_blank">{t.html_url}</a>
+          </li>
+          <li>
+            
+          </li>
+        ))}
+      </ul>
+    ) : (
+      <p>Loading trending repositories...</p>
+    )}
+    </main>
+  </div>
+
+</Layout>
+
+<style>
+	
+	#container {
+		font-family: Inter, Roboto, 'Helvetica Neue', 'Arial Nova', 'Nimbus Sans', Arial, sans-serif;
+		height: 100%;
+	}
+
+	main {
+		height: 100%;
+		display: flex;
+		justify-content: center;
+	}
+
+	h1 {
+		font-size: 22px;
+		margin-top: 0.25em;
+	}
+
+	#links {
+		display: flex;
+		gap: 16px;
+	}
+
+	#links a {
+		display: flex;
+		align-items: center;
+		padding: 10px 12px;
+		color: #111827;
+		text-decoration: none;
+		transition: color 0.2s;
+	}
+
+</style>
