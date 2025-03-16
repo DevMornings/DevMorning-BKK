@@ -1,8 +1,144 @@
 ---
-import Layout from '../layouts/PageLayout.astro';
+let title = "AI Voice Agent";
 ---
+<html>
+  <head>
+    <title>{title}</title>
+  </head>
+  <body>
+    <h1>Welcome to the AI Voice Agent Page!</h1>
+    <p>This page is under construction....</p>
+    <div id="livekit_container"></div>
+  </body>
+</html>
 
-<Layout>
-  <h1>AI Voice Agent</h1>
-  <p>Welcome to the AI Voice Agent page!</p>
-</Layout>
+<script>
+
+    import {
+        LocalParticipant,
+        LocalTrackPublication,
+        Participant,
+        RemoteParticipant,
+        RemoteTrack,
+        RemoteTrackPublication,
+        Room,
+        RoomEvent,
+        Track,
+        VideoPresets,
+    } from 'livekit-client';
+
+    import { AccessToken } from 'livekit-server-sdk';
+
+    ///////////////GET ACCESS TOKEN     
+    const roomName = 'DevMorning-BKK';
+    const participantName = 'Learner';
+
+    const at = new AccessToken('APIp6tfeZTEd4Cc', 'ed0jOPS3Xeq12QsBrntETtjiTA3z9qvD3dgLOxqnfzYB', {
+        identity: participantName,
+    }); 
+
+    const videoGrant = { 
+    room: roomName,
+    roomJoin: true,
+    canPublish: true,
+    canSubscribe: true,
+    };  
+
+    at.addGrant(videoGrant);
+    const token = await at.toJwt();
+
+    console.log('access token', token); //OK!!
+
+    ///////////////CREATE ROOM
+    // creates a new room with options
+    const room = new Room({
+        adaptiveStream: true,
+        dynacast: true,
+        videoCaptureDefaults: {
+            resolution: VideoPresets.h720.resolution,
+        },
+    });
+
+    // pre-warm connection, this can be called as early as your page is loaded. URL is Livekit's signaling server URL
+    room.prepareConnection("wss://devmorningbkk-tizz202p.livekit.cloud/", token); //OK!!
+
+    // set up event listeners
+    room
+    .on(RoomEvent.TrackSubscribed, handleTrackSubscribed)
+    .on(RoomEvent.TrackUnsubscribed, handleTrackUnsubscribed)
+    .on(RoomEvent.ActiveSpeakersChanged, handleActiveSpeakerChange)
+    .on(RoomEvent.Disconnected, handleDisconnect)
+    .on(RoomEvent.LocalTrackUnpublished, handleLocalTrackUnpublished);
+
+    room.on(RoomEvent.ActiveSpeakersChanged, (speakers) => {
+        console.log('Sound Detected (Active speakers changed):', speakers);
+        // Here you can show a UI indicator or process the speaker data
+    });
+
+    // connect to room with URL of the LiveKit server itself
+    await room.connect('wss://devmorningbkk-tizz202p.livekit.cloud', token); //OK!!
+    console.log('connected to room', room.name);
+
+    // publish local camera and mic tracks
+    await room.localParticipant.enableCameraAndMicrophone();
+
+    //////////////START PartiCIPATION
+    // turn on the local user's camera and mic, this may trigger a browser prompt to ensure permissions are granted
+    const p = room.localParticipant;
+    await p.setCameraEnabled(true);
+    await p.setMicrophoneEnabled(true);
+
+    // Get the local tracks
+    //const localTracks = p.getTracks(); 
+    //const localTracks = p.trackPublications;  // This should return the tracks (audio and video)
+/* - this isnt working coz of mismatching livekit-client versions
+    localTracks.forEach((track) => {
+        if (track.kind === Track.Kind.Video || track.kind === Track.Kind.Audio) {
+            room.localParticipant.publishTrack(track);  // Publish the track
+        }
+    });
+
+    // Ensure tracks are published to the room
+    //await p.publishTrack(p.getTrackPublication(Track.Source.Camera));
+    //await p.publishTrack(p.getTrackPublication(Track.Source.Microphone));
+*/
+    /////////////////////////////////////////
+
+    function handleTrackSubscribed(track, publication, participant) {
+        console.log("inside handleTrackSubscribed....");
+        // Ensure the track is of the kind Video or Audio
+        if (track.kind === Track.Kind.Video || track.kind === Track.Kind.Audio) {
+            // Attach the track to an HTMLVideoElement or HTMLAudioElement
+            const element = track.attach();
+            
+            // Ensure the container element exists before appending
+            const parentElement = document.getElementById("livekit_container");
+            if (parentElement) {
+                parentElement.appendChild(element);
+            }
+        }
+    }
+
+
+    function handleTrackUnsubscribed(track, publication, participant) {
+        // remove tracks from all attached elements
+        console.log("detaching tracks from all attached elements....");
+        track.detach();
+    }
+
+    function handleLocalTrackUnpublished(publication, participant) {
+        // when local tracks are ended, update UI to remove them from rendering
+        console.log("updating UI to remove ended local tracks from rendering....");
+        publication.track.detach();
+    }
+
+    //arg - array of Participants
+    function handleActiveSpeakerChange(speakers) {
+        // show UI indicators when participant is speaking
+    }
+ 
+    function handleDisconnect() {
+        console.log('disconnected from room');
+    }
+</script>
+
