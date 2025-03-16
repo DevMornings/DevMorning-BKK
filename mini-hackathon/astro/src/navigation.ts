@@ -23,6 +23,10 @@ export const headerData = {
       text: 'Learning',
       links: [
         {
+          text: 'GitHub Treading',
+          href: getPermalink('/github-trending'),
+        },
+        {
           text: 'Data Science',
         },
         {
